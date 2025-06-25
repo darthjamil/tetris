@@ -1,2 +1,2 @@
 # tetris
-Tetris is Swift
+Tetris in Swift
