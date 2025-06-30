@@ -20,11 +20,8 @@ public final class Tetris {
     private var totalLinesCleared = 0
     private var totalTetrises = 0
     private var tetrisPercentage = 0.0
-    // The location of each block of the current tetromino
-    private var block1 = (vertical: 0, horizontal: 0)
-    private var block2 = (vertical: 0, horizontal: 0)
-    private var block3 = (vertical: 0, horizontal: 0)
-    private var block4 = (vertical: 0, horizontal: 0)
+    // Coordinates for each frame of the current tetromino
+    private var frames = [(vertical: Int, horizontal: Int)]()
 
     convenience init(startLevel: Int = 1) {
         self.init(
@@ -149,11 +146,9 @@ public final class Tetris {
                 TetrominoInitializer.placeT(playfieldWidth: playfieldMechanics.width)
         }
 
-        placeOnPlayfield(tetromino, coordinates: coordinates)
-    }
+        frames = coordinates
 
-    private func placeOnPlayfield(_ tetromino: Tetromino, coordinates: [(vertical: Int, horizontal: Int)]) {
-        for coordinate in coordinates {
+        for coordinate in frames {
             playfield[coordinate.vertical][coordinate.horizontal] = tetromino
         }
     }
@@ -170,61 +165,55 @@ public final class Tetris {
             || playfield[vertical][horizontal] != nil
     }
 
+    private func belongsToCurrentPiece(_ vertical: Int, _ horizontal: Int) -> Bool {
+        frames.contains { frame in
+            vertical == frame.vertical && horizontal == frame.horizontal
+        }
+    }
+
     private func touchesLeftWall(_ horizontal: Int) -> Bool { horizontal <= 0 }
 
     private func touchesLeftWall() -> Bool {
-        touchesLeftWall(block1.horizontal)
-            || touchesLeftWall(block2.horizontal)
-            || touchesLeftWall(block3.horizontal)
-            || touchesLeftWall(block4.horizontal)
+        frames.contains { frame in touchesLeftWall(frame.horizontal) }
     }
 
     private func isOccupiedLeft() -> Bool {
-        isOccupied(block1.vertical, block1.horizontal - 1)
-            || isOccupied(block2.vertical, block2.horizontal - 1)
-            || isOccupied(block3.vertical, block3.horizontal - 1)
-            || isOccupied(block4.vertical, block4.horizontal - 1)
+        frames.contains { frame in 
+            !belongsToCurrentPiece(frame.vertical, frame.horizontal - 1)
+                && isOccupied(frame.vertical, frame.horizontal - 1)
+        }
     }
 
     private func touchesRightWall(_ horizontal: Int) -> Bool { horizontal >= playfieldMechanics.width - 1 }
 
     private func touchesRightWall() -> Bool {
-        touchesRightWall(block1.horizontal)
-            || touchesRightWall(block2.horizontal)
-            || touchesRightWall(block3.horizontal)
-            || touchesRightWall(block4.horizontal)
+        frames.contains { frame in touchesRightWall(frame.horizontal) }
     }
 
     private func isOccupiedRight() -> Bool {
-        isOccupied(block1.vertical, block1.horizontal + 1)
-            || isOccupied(block2.vertical, block2.horizontal + 1)
-            || isOccupied(block3.vertical, block3.horizontal + 1)
-            || isOccupied(block4.vertical, block4.horizontal + 1)
+        frames.contains { frame in 
+            !belongsToCurrentPiece(frame.vertical, frame.horizontal + 1)
+                && isOccupied(frame.vertical, frame.horizontal + 1)
+        }
     }
 
     private func touchesTop(_ vertical: Int) -> Bool { vertical <= 0 }
 
     private func touchesTop() -> Bool {
-        touchesTop(block1.vertical)
-            || touchesTop(block2.vertical)
-            || touchesTop(block3.vertical)
-            || touchesTop(block4.vertical)
+        frames.contains { frame in touchesTop(frame.vertical) }
     }
 
     private func touchesFloor(_ vertical: Int) -> Bool { vertical >= playfieldMechanics.height - 1 }
 
     private func touchesFloor() -> Bool {
-        touchesFloor(block1.vertical)
-            || touchesFloor(block2.vertical)
-            || touchesFloor(block3.vertical)
-            || touchesFloor(block4.vertical)
+        frames.contains { frame in touchesFloor(frame.vertical) }
     }
 
     private func hasLanded() -> Bool {
-        isOccupied(block1.vertical + 1, block1.horizontal)
-            || isOccupied(block2.vertical + 1, block2.horizontal)
-            || isOccupied(block3.vertical + 1, block3.horizontal)
-            || isOccupied(block4.vertical + 1, block4.horizontal)
+        frames.contains { frame in 
+            !belongsToCurrentPiece(frame.vertical + 1, frame.horizontal)
+                && isOccupied(frame.vertical + 1, frame.horizontal)
+        }
     }
 
     private func moveLeft() {
@@ -240,20 +229,17 @@ public final class Tetris {
     }
 
     private func translateCurrentPiece(verticallyBy: Int = 0, horizontallyBy: Int = 0) {
-        playfield[block1.vertical][block1.horizontal] = nil
-        playfield[block2.vertical][block2.horizontal] = nil
-        playfield[block3.vertical][block3.horizontal] = nil
-        playfield[block4.vertical][block4.horizontal] = nil
+        frames.forEach { frame in
+            playfield[frame.vertical][frame.horizontal] = nil
+        }
 
-        block1 = (block1.vertical + verticallyBy, block1.horizontal + horizontallyBy)
-        block1 = (block2.vertical + verticallyBy, block2.horizontal + horizontallyBy)
-        block1 = (block3.vertical + verticallyBy, block3.horizontal + horizontallyBy)
-        block1 = (block4.vertical + verticallyBy, block4.horizontal + horizontallyBy)
+        for (i, frame) in frames.enumerated() {
+            frames[i] = (frame.vertical + verticallyBy, frame.horizontal + horizontallyBy)
+        }
 
-        playfield[block1.vertical][block1.horizontal] = currentPiece
-        playfield[block2.vertical][block2.horizontal] = currentPiece
-        playfield[block3.vertical][block3.horizontal] = currentPiece
-        playfield[block4.vertical][block4.horizontal] = currentPiece
+        frames.forEach { frame in
+            playfield[frame.vertical][frame.horizontal] = currentPiece
+        }
     }
 
 }
