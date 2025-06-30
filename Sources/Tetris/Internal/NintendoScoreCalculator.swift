@@ -1,6 +1,6 @@
 class NintendoScoreCalculator: ScoreCalculator {
 
-    func getScore(level: Int, linesCleared: Int, numDownPushes: Int, linesHardDropped: Int) -> Int {
+    func getScore(level: Int, linesCleared: Int, numDownPushes: Int) -> Int {
         let lineClearScore = switch linesCleared {
             case 1: 40 * (level + 1)
             case 2: 100 * (level + 1)

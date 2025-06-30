@@ -42,35 +42,27 @@ be called once, and subsequent calls will return the same instance.
 To play the game, move the currently descending tetromino by calling the 
 following APIs
 
-    game.rotate() -> Bool
-    game.left() -> Bool
-    game.right() -> Bool
+    game.rotate() -> PlayResult
+    game.left() -> PlayResult
+    game.right() -> PlayResult
     
 These methods move the currently descending tetromino left, right, or rotate 
-it 90 degrees. If the action is illegal, `false` is returned, otherwise `true`.
-The return value is not strictly needed. However, it's returned so that the UI
-can provide visual/audio feedback without having to diff the playfield.
+it 90 degrees. The return value is not strictly needed. However, it's returned 
+so that the UI can provide visual/audio feedback without having to diff the 
+playfield.
 
 To move the current tetromino down one space, or to drop it, call the following
 APIs:
 
-    game.down() -> DropResult
-    game.drop() -> DropResult
+    game.down() -> PlayResult
+    game.drop() -> PlayResult
 
 Where
 
-    enum DropResult {
-        StillDescending(scoreDelta: Int)
-        Landed(linesCleared: Int, scoreDelta: Int)
+    enum PlayResult {
+        StillDescending
+        Landed
     }
-
-These actions will never fail. They may result in either
-
-1. The tetromino continues to descend. It returns the score delta, if any,
-for moving down.
-1. The tetromino has landed. It returns the score delta for clearing lines,
-if any. It also returns the number of lines cleared, if any. 4 lines cleared 
-means a Tetris.
 
 ## Get Tetrion Information
 Other information about the game can be interrogated through the following APIs.
