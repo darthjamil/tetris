@@ -15,6 +15,7 @@ public final class Tetris {
 
     private let maxNextPieces = 7
     private let playfieldMechanics: PlayfieldMechanics
+    private let rotationMechanics: RotationMechanics
     private let tetrominoGenerator: TetrominoGenerator
     private let scoreCalculator: ScoreCalculator
     private var totalLinesCleared = 0
@@ -22,11 +23,17 @@ public final class Tetris {
     private var tetrisPercentage = 0.0
     // Coordinates for each frame of the current tetromino
     private var frames = [(vertical: Int, horizontal: Int)]()
+    // Orientation of the current tetromino
+    private var rotationState = RotationState.NineOClock
 
     convenience init(startLevel: Int = 1) {
+        let playfieldMechanics = DefaultPlayfieldMechanics()
         self.init(
             startLevel: startLevel,
             DefaultPlayfieldMechanics(), 
+            SRSRotationMechanics(
+                playfieldWidth: playfieldMechanics.width, 
+                playfieldHeight: playfieldMechanics.height),
             DefaultTetrominoGenerator(),
             NintendoScoreCalculator())
     }
@@ -34,10 +41,12 @@ public final class Tetris {
     init(
         startLevel: Int = 1,
         _ playfieldMechanics: PlayfieldMechanics,
+        _ rotationMechanics: RotationMechanics,
         _ tetrominoGenerator: TetrominoGenerator,
         _ scoreCalculator: ScoreCalculator
     ) {
         self.playfieldMechanics = playfieldMechanics
+        self.rotationMechanics = rotationMechanics
         self.tetrominoGenerator = tetrominoGenerator
         self.scoreCalculator = scoreCalculator
 
@@ -51,8 +60,38 @@ public final class Tetris {
     }
 
     func rotate() -> PlayResult {
-        // TODO
-        .StillDescending
+        let newCoordinates = rotationMechanics.rotate(
+            currentPiece, currentCoordinates: frames, currentRotation: rotationState)
+
+        if newCoordinates.contains { c in isOutOfBounds(c.vertical, c.horizontal) } {
+            return .ActionNotAllowed
+        }
+
+        if newCoordinates.contains { c in 
+            !belongsToCurrentPiece(c.vertical, c.horizontal) && isOccupied(c.vertical, c.horizontal)
+        } {
+            return .ActionNotAllowed
+        }
+
+        frames.forEach { frame in
+            playfield[frame.vertical][frame.horizontal] = nil
+        }
+
+        frames = newCoordinates
+
+        frames.forEach { frame in
+            playfield[frame.vertical][frame.horizontal] = currentPiece
+        }
+
+        rotationState.rotateClockwise()
+
+        if touchesFloor() || hasLanded() {
+            updateStats()
+            startNextPiece()
+            return .Landed
+        }
+
+        return .StillDescending
     }
 
     func left() -> PlayResult {
@@ -123,28 +162,14 @@ public final class Tetris {
         let newPiece = tetrominoGenerator.next()
 
         currentPiece = nextCurrentPiece
+        rotationState = .NineOClock
         nextPieces.insert(newPiece, at: 0)
 
-        placeOnPlayfield(tetromino: currentPiece)
+        spawnTetromino(tetromino: currentPiece)
     }
 
-    private func placeOnPlayfield(tetromino: Tetromino) {
-        let coordinates = switch tetromino {
-            case .I:
-                TetrominoInitializer.placeI(playfieldWidth: playfieldMechanics.width)
-            case .J:
-                TetrominoInitializer.placeJ(playfieldWidth: playfieldMechanics.width)
-            case .L:
-                TetrominoInitializer.placeL(playfieldWidth: playfieldMechanics.width)
-            case .O:
-                TetrominoInitializer.placeO(playfieldWidth: playfieldMechanics.width)
-            case .S:
-                TetrominoInitializer.placeS(playfieldWidth: playfieldMechanics.width)
-            case .Z:
-                TetrominoInitializer.placeZ(playfieldWidth: playfieldMechanics.width)
-            case .T:
-                TetrominoInitializer.placeT(playfieldWidth: playfieldMechanics.width)
-        }
+    private func spawnTetromino(tetromino: Tetromino) {
+        let coordinates = rotationMechanics.getSpawnCoordinates(tetromino)
 
         frames = coordinates
 

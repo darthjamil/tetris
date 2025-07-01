@@ -1,0 +1,1 @@
+public typealias Coordinates = [(vertical: Int, horizontal: Int)]
