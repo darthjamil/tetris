@@ -99,6 +99,10 @@ class Playfield {
         }
     }
 
+    func hasLanded(_ coordinates: Coordinates) -> Bool {
+        touchesFloor(coordinates) || isOccupiedBelow(coordinates)
+    }
+
     func isPlayfieldFull() -> Bool {
         grid.allSatisfy { row in
             row.contains { cell in cell != nil }

@@ -57,7 +57,7 @@ public final class Tetris {
         startNextPiece()
     }
 
-    private func startNextPiece() {
+    func startNextPiece() {
         let nextCurrentPiece = nextPieces.popLast()!
         let newPiece = tetrominoGenerator.next()
 
@@ -69,88 +69,38 @@ public final class Tetris {
         playfield.spawn(nextCurrentPiece, at: coordinates)
     }
 
-    private func updateStats() {
-        // TODO: increase score; advance level; update stats
-        score += scoreCalculator.getScore(
-            level: level, linesCleared: 0, numDownPushes: 0)
-    }
-
     func rotate() -> PlayResult {
         let newCoordinates = rotationMechanics.rotate(
             currentPiece, currentCoordinates: coordinates, currentRotation: orientation)
 
-        if playfield.isAnyOutOfBounds(newCoordinates) {
-            return .ActionNotAllowed
+        let result = move(to: newCoordinates)
+
+        if result != .ActionNotAllowed {
+            orientation.rotateClockwise()
         }
 
-        if playfield.isAnyOccupied(new: newCoordinates, old: coordinates) {
-            return .ActionNotAllowed
-        }
-
-        playfield.move(currentPiece, at: coordinates, to: newCoordinates)
-        coordinates = newCoordinates
-        orientation.rotateClockwise()
-
-        if playfield.isPlayfieldFull() {
-            updateStats()
-            return .GameOver
-        }
-
-        if playfield.touchesFloor(newCoordinates) {
-            updateStats()
-            startNextPiece()
-            return .Landed
-        }
-
-        return .StillDescending
+        return result
     }
-/*
+
     func left() -> PlayResult {
-        if touchesLeftWall() || isOccupiedLeft() {
-            return .ActionNotAllowed
-        }
+        let newCoordinates = coordinates.map { (v, h) in (v, h - 1) }
+        let result = move(to: newCoordinates)
 
-        moveLeft()
-
-        if touchesFloor() || hasLanded() {
-            updateStats()
-            startNextPiece()
-            return .Landed
-        }
-
-        return .StillDescending
+        return result
     }
 
     func right() -> PlayResult {
-        if touchesRightWall() || isOccupiedRight() {
-            return .ActionNotAllowed
-        }
+        let newCoordinates = coordinates.map { (v, h) in (v, h + 1) }
+        let result = move(to: newCoordinates)
 
-        moveRight()
-
-        if touchesFloor() || hasLanded() {
-            updateStats()
-            startNextPiece()
-            return .Landed
-        }
-
-        return .StillDescending
+        return result
     }
 
     func down() -> PlayResult {
-        if touchesFloor() || hasLanded() {
-            return .Landed
-        }
+        let newCoordinates = coordinates.map { (v, h) in (v + 1, h) }
+        let result = move(to: newCoordinates)
 
-        moveDown()
-
-        if touchesFloor() || hasLanded() {
-            updateStats()
-            startNextPiece()
-            return .Landed
-        }
-
-        return .StillDescending
+        return result
     }
 
     func drop() -> PlayResult {
@@ -161,5 +111,42 @@ public final class Tetris {
 
         return result
     }
-*/
+
+    private func move(to newCoordinates: Coordinates) -> PlayResult {
+        if playfield.isAnyOutOfBounds(newCoordinates) {
+            return .ActionNotAllowed
+        }
+
+        if playfield.isAnyOccupied(new: newCoordinates, old: coordinates) {
+            return .ActionNotAllowed
+        }
+
+        playfield.move(currentPiece, at: coordinates, to: newCoordinates)
+        coordinates = newCoordinates
+
+        if playfield.hasLanded(coordinates) {
+            let completeRows = playfield.getCompleteRows()
+
+            if !completeRows.isEmpty {
+                playfield.clearRows(completeRows)
+                totalLinesCleared += completeRows.count
+                updateStats()
+                return .Landed
+            }
+
+            if playfield.isPlayfieldFull() {
+                updateStats()
+                return .GameOver
+            }
+        }
+        
+        return .StillDescending
+    }
+
+    private func updateStats() {
+        // TODO: increase score; advance level; update stats
+        score += scoreCalculator.getScore(
+            level: level, linesCleared: 0, numDownPushes: 0)
+    }
+
 }
