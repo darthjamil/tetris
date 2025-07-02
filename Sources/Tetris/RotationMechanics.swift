@@ -5,7 +5,7 @@ public protocol RotationMechanics {
     func rotate(
         _ tetromino: Tetromino, 
         currentCoordinates: Coordinates,
-        currentRotation: RotationState
+        currentRotation: Orientation
     ) -> Coordinates
 
 }

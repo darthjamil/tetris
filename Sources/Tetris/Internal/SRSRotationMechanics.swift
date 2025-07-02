@@ -23,7 +23,7 @@ class SRSRotationMechanics: RotationMechanics {
     func rotate(
         _ tetromino: Tetromino, 
         currentCoordinates: Coordinates,
-        currentRotation: RotationState
+        currentRotation: Orientation
     ) -> Coordinates {
         switch tetromino {
             case .I: return rotateI(currentCoordinates, currentRotation)
@@ -57,7 +57,7 @@ class SRSRotationMechanics: RotationMechanics {
                 (0, startIndex + 3)]
     }
 
-    private func rotateI(_ currentCoordinates: Coordinates, _ currentRotation: RotationState) -> Coordinates {
+    private func rotateI(_ currentCoordinates: Coordinates, _ currentRotation: Orientation) -> Coordinates {
         switch currentRotation {
             case .NineOClock: return 
                 [(currentCoordinates[0].vertical - 1, currentCoordinates[0].horizontal + 2), 
@@ -90,7 +90,7 @@ class SRSRotationMechanics: RotationMechanics {
                 (1, startIndex + 2)]
     }
 
-    private func rotateJ(_ currentCoordinates: Coordinates, _ currentRotation: RotationState) -> Coordinates {
+    private func rotateJ(_ currentCoordinates: Coordinates, _ currentRotation: Orientation) -> Coordinates {
         switch currentRotation {
             case .NineOClock: return 
                 [(currentCoordinates[0].vertical, currentCoordinates[0].horizontal + 2), 
@@ -123,7 +123,7 @@ class SRSRotationMechanics: RotationMechanics {
                 (0, startIndex + 2)]
     }
 
-    private func rotateL(_ currentCoordinates: Coordinates, _ currentRotation: RotationState) -> Coordinates {
+    private func rotateL(_ currentCoordinates: Coordinates, _ currentRotation: Orientation) -> Coordinates {
         switch currentRotation {
             case .NineOClock: return 
                 [(currentCoordinates[0].vertical - 1, currentCoordinates[0].horizontal + 1), 
@@ -168,7 +168,7 @@ class SRSRotationMechanics: RotationMechanics {
                 (0, startIndex + 2)]
     }
 
-    private func rotateS(_ currentCoordinates: Coordinates, _ currentRotation: RotationState) -> Coordinates {
+    private func rotateS(_ currentCoordinates: Coordinates, _ currentRotation: Orientation) -> Coordinates {
         switch currentRotation {
             case .NineOClock: return 
                 [(currentCoordinates[0].vertical - 1, currentCoordinates[0].horizontal + 1), 
@@ -201,7 +201,7 @@ class SRSRotationMechanics: RotationMechanics {
                 (1, startIndex + 2)]
     }
 
-    private func rotateZ(_ currentCoordinates: Coordinates, _ currentRotation: RotationState) -> Coordinates {
+    private func rotateZ(_ currentCoordinates: Coordinates, _ currentRotation: Orientation) -> Coordinates {
         switch currentRotation {
             case .NineOClock: return 
                 [(currentCoordinates[0].vertical, currentCoordinates[0].horizontal + 2), 
@@ -234,7 +234,7 @@ class SRSRotationMechanics: RotationMechanics {
                 (1, startIndex + 2)]
     }
 
-    private func rotateT(_ currentCoordinates: Coordinates, _ currentRotation: RotationState) -> Coordinates {
+    private func rotateT(_ currentCoordinates: Coordinates, _ currentRotation: Orientation) -> Coordinates {
         switch currentRotation {
             case .NineOClock: return 
                 [(currentCoordinates[0].vertical - 1, currentCoordinates[0].horizontal + 1), 

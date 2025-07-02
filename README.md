@@ -185,7 +185,7 @@ Note the definitions
 
     public typealias Coordinates = [(vertical: Int, horizontal: Int)]
 
-    public enum RotationState {
+    public enum Orientation {
         case NineOClock // the spawn orientation
         case TwelveOClock
         case ThreeOClock

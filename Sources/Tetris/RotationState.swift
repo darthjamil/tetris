@@ -2,7 +2,7 @@
 Defines where on a clock face the first frame in a tetromino's
 coordinates array is pointing.
 */
-public enum RotationState {
+public enum Orientation {
     case NineOClock
     case TwelveOClock
     case ThreeOClock
