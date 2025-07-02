@@ -2,7 +2,6 @@ public final class Tetris {
 
     private(set) var currentPiece: Tetromino
     private(set) var nextPieces: [Tetromino]
-    private(set) var playfield: Playfield
     private(set) var level: Int
     private(set) var score = 0
 
@@ -13,46 +12,59 @@ public final class Tetris {
             tetrisPercentage: tetrisPercentage)
     }
 
+    var board: [[Tetromino?]] {
+        playfield.grid
+    }
+
     private let maxNextPieces = 7
-    private let playfieldMechanics: PlayfieldMechanics
+    private let playfieldOverrides: PlayfieldOverrides
     private let rotationMechanics: RotationMechanics
     private let tetrominoGenerator: TetrominoGenerator
     private let scoreCalculator: ScoreCalculator
+    private let levelProgression: LevelProgression
+    private var playfield: Playfield
     private var totalLinesCleared = 0
     private var totalTetrises = 0
-    private var tetrisPercentage = 0.0
+    private var numDownPresses = 0
+    private var numLinesCleared = 0
+    private var tetrisPercentage: Double {
+        totalLinesCleared > 0 ? Double(totalTetrises) / Double(totalLinesCleared) : 0
+    }
     // Coordinates for each frame of the current tetromino
     private var coordinates = Coordinates()
     // Orientation of the current tetromino
     private var orientation = Orientation.NineOClock
 
     convenience init(startLevel: Int = 1) {
-        let playfieldMechanics = DefaultPlayfieldMechanics()
+        let playfieldMechanics = DefaultPlayfieldOverrides()
         self.init(
             startLevel: startLevel,
-            DefaultPlayfieldMechanics(), 
+            DefaultPlayfieldOverrides(), 
             SRSRotationMechanics(
                 playfieldWidth: playfieldMechanics.width, 
                 playfieldHeight: playfieldMechanics.height),
             DefaultTetrominoGenerator(),
-            NintendoScoreCalculator())
+            NintendoScoreCalculator(),
+            DefaultLevelProgression())
     }
 
     init(
         startLevel: Int = 1,
-        _ playfieldMechanics: PlayfieldMechanics,
+        _ playfieldOverrides: PlayfieldOverrides,
         _ rotationMechanics: RotationMechanics,
         _ tetrominoGenerator: TetrominoGenerator,
-        _ scoreCalculator: ScoreCalculator
+        _ scoreCalculator: ScoreCalculator,
+        _ levelProgression: LevelProgression
     ) {
-        self.playfieldMechanics = playfieldMechanics
+        self.playfieldOverrides = playfieldOverrides
         self.rotationMechanics = rotationMechanics
         self.tetrominoGenerator = tetrominoGenerator
         self.scoreCalculator = scoreCalculator
+        self.levelProgression = levelProgression
         self.level = max(1, startLevel)
         self.currentPiece = tetrominoGenerator.next()
         self.nextPieces = Array((1...maxNextPieces).map { _ in tetrominoGenerator.next() })
-        self.playfield = Playfield(width: playfieldMechanics.width, height: playfieldMechanics.height)
+        self.playfield = Playfield(width: playfieldOverrides.width, height: playfieldOverrides.height)
 
         startNextPiece()
     }
@@ -100,6 +112,8 @@ public final class Tetris {
         let newCoordinates = coordinates.map { (v, h) in (v + 1, h) }
         let result = move(to: newCoordinates)
 
+        numDownPresses += 1
+
         return result
     }
 
@@ -129,7 +143,7 @@ public final class Tetris {
 
             if !completeRows.isEmpty {
                 playfield.clearRows(completeRows)
-                totalLinesCleared += completeRows.count
+                numLinesCleared = completeRows.count
                 updateStats()
                 return .Landed
             }
@@ -144,9 +158,17 @@ public final class Tetris {
     }
 
     private func updateStats() {
-        // TODO: increase score; advance level; update stats
+        defer {
+            numDownPresses = 0
+            numLinesCleared = 0
+        }
+
+        totalLinesCleared += numLinesCleared
+        totalTetrises += numLinesCleared >= 4 ? 1 : 0
         score += scoreCalculator.getScore(
-            level: level, linesCleared: 0, numDownPushes: 0)
+            level: level, linesCleared: numLinesCleared, numDownPushes: numDownPresses)
+        
+        level = levelProgression.getLevel(currentLevel: level, totalLinesCleared: totalLinesCleared)
     }
 
 }

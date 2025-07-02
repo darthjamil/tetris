@@ -108,16 +108,17 @@ with custom mechanics:
 
     let game = Tetris(
         startLevel: Int = 1,
-        playfieldMechanics: PlayfieldMechanics,
+        playfieldOverrides: PlayfieldOverrides,
         rotationMechanics: RotationMechanics,
         tetrominoGenerator: TetrominoGenerator,
-        scoreCalculator: ScoreCalculator
+        scoreCalculator: ScoreCalculator,
+        levelProgression: LevelProgression
     )
 
-Where `PlayfieldMechanics` describes the mechanics of the game. The default mechanics
+Where `PlayfieldOverrides` describes the mechanics of the game. The default mechanics
 include a 10 x 20 grid.
 
-    protocol PlayfieldMechanics {
+    protocol PlayfieldOverrides {
         // The width of the playfield in number of blocks. Recommended 10
         val width: Int { get }
 
@@ -190,4 +191,10 @@ Note the definitions
         case TwelveOClock
         case ThreeOClock
         case SixOClock
+    }
+
+And `LevelProgression` defines how to advance to the next level.
+
+    public protocol LevelProgression {
+        func getLevel(currentLevel: Int, totalLinesCleared: Int) -> Int
     }

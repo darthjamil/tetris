@@ -1,4 +1,4 @@
-public protocol PlayfieldMechanics {
+public protocol PlayfieldOverrides {
     // The width of the playfield in number of blocks. Recommended 10
     var width: Int { get }
 
