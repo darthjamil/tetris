@@ -1,4 +1,4 @@
 class DefaultPlayfieldOverrides: PlayfieldOverrides {
-    var width = 10
-    var height = 20
+    let width = 10
+    let height = 20
 }

@@ -3,17 +3,17 @@ Defines where on a clock face the first frame in a tetromino's
 coordinates array is pointing.
 */
 public enum Orientation {
-    case NineOClock
-    case TwelveOClock
-    case ThreeOClock
-    case SixOClock
+    case nineOClock
+    case twelveOClock
+    case threeOClock
+    case sixOClock
 
     mutating func rotateClockwise() {
         switch self {
-            case .NineOClock: self = .TwelveOClock
-            case .TwelveOClock: self = .ThreeOClock
-            case .ThreeOClock: self = .SixOClock
-            case .SixOClock: self = .NineOClock
+            case .nineOClock: self = .twelveOClock
+            case .twelveOClock: self = .threeOClock
+            case .threeOClock: self = .sixOClock
+            case .sixOClock: self = .nineOClock
         }
     }
 }

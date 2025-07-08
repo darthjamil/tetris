@@ -59,22 +59,22 @@ class SRSRotationMechanics: RotationMechanics {
 
     private func rotateI(_ currentCoordinates: Coordinates, _ currentRotation: Orientation) -> Coordinates {
         switch currentRotation {
-            case .NineOClock: return 
+            case .nineOClock: return 
                 [(currentCoordinates[0].vertical - 1, currentCoordinates[0].horizontal + 2), 
                  (currentCoordinates[1].vertical, currentCoordinates[1].horizontal + 1), 
                  (currentCoordinates[2].vertical + 1, currentCoordinates[2].horizontal), 
                  (currentCoordinates[3].vertical + 2, currentCoordinates[3].horizontal - 1)]
-            case .TwelveOClock: return 
+            case .twelveOClock: return 
                 [(currentCoordinates[0].vertical + 2, currentCoordinates[0].horizontal + 1), 
                  (currentCoordinates[1].vertical + 1, currentCoordinates[1].horizontal), 
                  (currentCoordinates[2].vertical, currentCoordinates[2].horizontal - 1), 
                  (currentCoordinates[3].vertical - 1, currentCoordinates[3].horizontal - 2)]
-            case .ThreeOClock: return 
+            case .threeOClock: return 
                 [(currentCoordinates[0].vertical + 1, currentCoordinates[0].horizontal - 2), 
                  (currentCoordinates[1].vertical, currentCoordinates[1].horizontal - 1), 
                  (currentCoordinates[2].vertical - 1, currentCoordinates[2].horizontal), 
                  (currentCoordinates[3].vertical - 2, currentCoordinates[3].horizontal + 1)]
-            case .SixOClock: return 
+            case .sixOClock: return 
                 [(currentCoordinates[0].vertical - 2, currentCoordinates[0].horizontal - 1), 
                  (currentCoordinates[1].vertical - 1, currentCoordinates[1].horizontal), 
                  (currentCoordinates[2].vertical, currentCoordinates[2].horizontal + 1), 
@@ -92,22 +92,22 @@ class SRSRotationMechanics: RotationMechanics {
 
     private func rotateJ(_ currentCoordinates: Coordinates, _ currentRotation: Orientation) -> Coordinates {
         switch currentRotation {
-            case .NineOClock: return 
+            case .nineOClock: return 
                 [(currentCoordinates[0].vertical, currentCoordinates[0].horizontal + 2), 
                  (currentCoordinates[1].vertical - 1, currentCoordinates[1].horizontal + 1), 
                  (currentCoordinates[2].vertical, currentCoordinates[2].horizontal), 
                  (currentCoordinates[3].vertical + 1, currentCoordinates[3].horizontal - 1)]
-            case .TwelveOClock: return 
+            case .twelveOClock: return 
                 [(currentCoordinates[0].vertical + 2, currentCoordinates[0].horizontal), 
                  (currentCoordinates[1].vertical + 1, currentCoordinates[1].horizontal + 1), 
                  (currentCoordinates[2].vertical, currentCoordinates[2].horizontal), 
                  (currentCoordinates[3].vertical - 1, currentCoordinates[3].horizontal - 1)]
-            case .ThreeOClock: return 
+            case .threeOClock: return 
                 [(currentCoordinates[0].vertical, currentCoordinates[0].horizontal - 2), 
                  (currentCoordinates[1].vertical + 1, currentCoordinates[1].horizontal - 1), 
                  (currentCoordinates[2].vertical, currentCoordinates[2].horizontal), 
                  (currentCoordinates[3].vertical - 1, currentCoordinates[3].horizontal + 1)]
-            case .SixOClock: return 
+            case .sixOClock: return 
                 [(currentCoordinates[0].vertical - 2, currentCoordinates[0].horizontal), 
                  (currentCoordinates[1].vertical - 1, currentCoordinates[1].horizontal - 1), 
                  (currentCoordinates[2].vertical, currentCoordinates[2].horizontal), 
@@ -125,22 +125,22 @@ class SRSRotationMechanics: RotationMechanics {
 
     private func rotateL(_ currentCoordinates: Coordinates, _ currentRotation: Orientation) -> Coordinates {
         switch currentRotation {
-            case .NineOClock: return 
+            case .nineOClock: return 
                 [(currentCoordinates[0].vertical - 1, currentCoordinates[0].horizontal + 1), 
                  (currentCoordinates[1].vertical, currentCoordinates[1].horizontal), 
                  (currentCoordinates[2].vertical + 1, currentCoordinates[2].horizontal - 1), 
                  (currentCoordinates[3].vertical + 2, currentCoordinates[3].horizontal)]
-            case .TwelveOClock: return 
+            case .twelveOClock: return 
                 [(currentCoordinates[0].vertical + 1, currentCoordinates[0].horizontal + 1), 
                  (currentCoordinates[1].vertical, currentCoordinates[1].horizontal), 
                  (currentCoordinates[2].vertical - 1, currentCoordinates[2].horizontal - 1), 
                  (currentCoordinates[3].vertical, currentCoordinates[3].horizontal - 2)]
-            case .ThreeOClock: return 
+            case .threeOClock: return 
                 [(currentCoordinates[0].vertical + 1, currentCoordinates[0].horizontal - 1), 
                  (currentCoordinates[1].vertical, currentCoordinates[1].horizontal), 
                  (currentCoordinates[2].vertical - 1, currentCoordinates[2].horizontal + 1), 
                  (currentCoordinates[3].vertical - 2, currentCoordinates[3].horizontal)]
-            case .SixOClock: return 
+            case .sixOClock: return 
                 [(currentCoordinates[0].vertical - 1, currentCoordinates[0].horizontal - 1), 
                  (currentCoordinates[1].vertical, currentCoordinates[1].horizontal), 
                  (currentCoordinates[2].vertical + 1, currentCoordinates[2].horizontal + 1), 
@@ -170,22 +170,22 @@ class SRSRotationMechanics: RotationMechanics {
 
     private func rotateS(_ currentCoordinates: Coordinates, _ currentRotation: Orientation) -> Coordinates {
         switch currentRotation {
-            case .NineOClock: return 
+            case .nineOClock: return 
                 [(currentCoordinates[0].vertical - 1, currentCoordinates[0].horizontal + 1), 
                  (currentCoordinates[1].vertical, currentCoordinates[1].horizontal), 
                  (currentCoordinates[2].vertical + 1, currentCoordinates[2].horizontal + 1), 
                  (currentCoordinates[3].vertical + 2, currentCoordinates[3].horizontal)]
-            case .TwelveOClock: return 
+            case .twelveOClock: return 
                 [(currentCoordinates[0].vertical + 1, currentCoordinates[0].horizontal + 1), 
                  (currentCoordinates[1].vertical, currentCoordinates[1].horizontal), 
                  (currentCoordinates[2].vertical + 1, currentCoordinates[2].horizontal - 1), 
                  (currentCoordinates[3].vertical, currentCoordinates[3].horizontal - 2)]
-            case .ThreeOClock: return 
+            case .threeOClock: return 
                 [(currentCoordinates[0].vertical + 1, currentCoordinates[0].horizontal - 1), 
                  (currentCoordinates[1].vertical, currentCoordinates[1].horizontal), 
                  (currentCoordinates[2].vertical - 1, currentCoordinates[2].horizontal - 1), 
                  (currentCoordinates[3].vertical - 2, currentCoordinates[3].horizontal)]
-            case .SixOClock: return 
+            case .sixOClock: return 
                 [(currentCoordinates[0].vertical - 1, currentCoordinates[0].horizontal - 1), 
                  (currentCoordinates[1].vertical, currentCoordinates[1].horizontal), 
                  (currentCoordinates[2].vertical - 1, currentCoordinates[2].horizontal + 1), 
@@ -203,22 +203,22 @@ class SRSRotationMechanics: RotationMechanics {
 
     private func rotateZ(_ currentCoordinates: Coordinates, _ currentRotation: Orientation) -> Coordinates {
         switch currentRotation {
-            case .NineOClock: return 
+            case .nineOClock: return 
                 [(currentCoordinates[0].vertical, currentCoordinates[0].horizontal + 2), 
                  (currentCoordinates[1].vertical + 1, currentCoordinates[1].horizontal + 1), 
                  (currentCoordinates[2].vertical, currentCoordinates[2].horizontal), 
                  (currentCoordinates[3].vertical + 1, currentCoordinates[3].horizontal - 1)]
-            case .TwelveOClock: return 
+            case .twelveOClock: return 
                 [(currentCoordinates[0].vertical + 2, currentCoordinates[0].horizontal), 
                  (currentCoordinates[1].vertical + 1, currentCoordinates[1].horizontal - 1), 
                  (currentCoordinates[2].vertical, currentCoordinates[2].horizontal), 
                  (currentCoordinates[3].vertical - 1, currentCoordinates[3].horizontal - 1)]
-            case .ThreeOClock: return 
+            case .threeOClock: return 
                 [(currentCoordinates[0].vertical, currentCoordinates[0].horizontal - 2), 
                  (currentCoordinates[1].vertical - 1, currentCoordinates[1].horizontal - 1), 
                  (currentCoordinates[2].vertical, currentCoordinates[2].horizontal), 
                  (currentCoordinates[3].vertical - 1, currentCoordinates[3].horizontal + 1)]
-            case .SixOClock: return 
+            case .sixOClock: return 
                 [(currentCoordinates[0].vertical - 2, currentCoordinates[0].horizontal), 
                  (currentCoordinates[1].vertical - 1, currentCoordinates[1].horizontal + 1), 
                  (currentCoordinates[2].vertical, currentCoordinates[2].horizontal), 
@@ -236,22 +236,22 @@ class SRSRotationMechanics: RotationMechanics {
 
     private func rotateT(_ currentCoordinates: Coordinates, _ currentRotation: Orientation) -> Coordinates {
         switch currentRotation {
-            case .NineOClock: return 
+            case .nineOClock: return 
                 [(currentCoordinates[0].vertical - 1, currentCoordinates[0].horizontal + 1), 
                  (currentCoordinates[1].vertical + 1, currentCoordinates[1].horizontal + 1), 
                  (currentCoordinates[2].vertical, currentCoordinates[2].horizontal), 
                  (currentCoordinates[3].vertical + 1, currentCoordinates[3].horizontal - 1)]
-            case .TwelveOClock: return 
+            case .twelveOClock: return 
                 [(currentCoordinates[0].vertical + 1, currentCoordinates[0].horizontal + 1), 
                  (currentCoordinates[1].vertical + 1, currentCoordinates[1].horizontal - 1), 
                  (currentCoordinates[2].vertical, currentCoordinates[2].horizontal), 
                  (currentCoordinates[3].vertical - 1, currentCoordinates[3].horizontal - 1)]
-            case .ThreeOClock: return 
+            case .threeOClock: return 
                 [(currentCoordinates[0].vertical + 1, currentCoordinates[0].horizontal - 1), 
                  (currentCoordinates[1].vertical - 1, currentCoordinates[1].horizontal - 1), 
                  (currentCoordinates[2].vertical, currentCoordinates[2].horizontal), 
                  (currentCoordinates[3].vertical - 1, currentCoordinates[3].horizontal + 1)]
-            case .SixOClock: return 
+            case .sixOClock: return 
                 [(currentCoordinates[0].vertical - 1, currentCoordinates[0].horizontal - 1), 
                  (currentCoordinates[1].vertical - 1, currentCoordinates[1].horizontal + 1), 
                  (currentCoordinates[2].vertical, currentCoordinates[2].horizontal), 

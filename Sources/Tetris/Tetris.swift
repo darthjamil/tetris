@@ -33,7 +33,7 @@ public final class Tetris {
     // Coordinates for each frame of the current tetromino
     private var coordinates = Coordinates()
     // Orientation of the current tetromino
-    private var orientation = Orientation.NineOClock
+    private var orientation = Orientation.nineOClock
 
     convenience init(startLevel: Int = 1) {
         let playfieldMechanics = DefaultPlayfieldOverrides()
@@ -75,7 +75,7 @@ public final class Tetris {
 
         currentPiece = nextCurrentPiece
         coordinates = rotationMechanics.getSpawnCoordinates(nextCurrentPiece)
-        orientation = .NineOClock
+        orientation = .nineOClock
         nextPieces.insert(newPiece, at: 0)
         
         playfield.spawn(nextCurrentPiece, at: coordinates)
@@ -87,7 +87,7 @@ public final class Tetris {
 
         let result = move(to: newCoordinates)
 
-        if result != .ActionNotAllowed {
+        if result != .actionNotAllowed {
             orientation.rotateClockwise()
         }
 
@@ -121,18 +121,18 @@ public final class Tetris {
         var result: PlayResult
         repeat {
             result = down()
-        } while result == .StillDescending
+        } while result == .stillDescending
 
         return result
     }
 
     private func move(to newCoordinates: Coordinates) -> PlayResult {
         if playfield.isAnyOutOfBounds(newCoordinates) {
-            return .ActionNotAllowed
+            return .actionNotAllowed
         }
 
         if playfield.isAnyOccupied(new: newCoordinates, old: coordinates) {
-            return .ActionNotAllowed
+            return .actionNotAllowed
         }
 
         playfield.move(currentPiece, at: coordinates, to: newCoordinates)
@@ -145,16 +145,16 @@ public final class Tetris {
                 playfield.clearRows(completeRows)
                 numLinesCleared = completeRows.count
                 updateStats()
-                return .Landed
+                return .landed
             }
 
             if playfield.isPlayfieldFull() {
                 updateStats()
-                return .GameOver
+                return .gameOver
             }
         }
         
-        return .StillDescending
+        return .stillDescending
     }
 
     private func updateStats() {

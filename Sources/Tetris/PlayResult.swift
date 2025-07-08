@@ -1,6 +1,6 @@
 public enum PlayResult {
-    case ActionNotAllowed
-    case StillDescending
-    case Landed
-    case GameOver
+    case actionNotAllowed
+    case stillDescending
+    case landed
+    case gameOver
 }
